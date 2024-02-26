@@ -2914,78 +2914,299 @@ customPromiseAll([promise1, promise2, promise3])
 
 ---
 
-###### 1.
-
+###### 1. Implement a function that converts a JavaScript value into a JSON string.
 <details><summary><b>Answer</b></summary>
 <p>
-
-
+  
+  ```javascript
+  function convertToJSON(value) {
+      return JSON.stringify(value);
+  }
+  ```
 </p>
 </details>
 
+---
 
-1. Implement a function that converts a Javascript value into a JSON string.
+###### 2. Implement a function that performs a deep copy of a value, but also handles circular references.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function deepCopyWithCircularHandling(obj, seen = new WeakMap()) {
+    if (Object(obj) !== obj || obj instanceof Function || obj instanceof Promise)
+        return obj;
+    if (seen.has(obj))
+        return seen.get(obj);
+    let newObj = Array.isArray(obj) ? [] : {};
+    seen.set(obj, newObj);
+    Object.keys(obj).forEach(key => {
+        newObj[key] = deepCopyWithCircularHandling(obj[key], seen);
+    });
+    return newObj;
+}
+```
+</p>
+</details>
 
-2. Implement a function that performs a deep copy of a value, but also handles circular references.
+---
+###### 3. Implement a function to construct a table of contents from an HTML document.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function constructTableOfContents(htmlDocument) {
+    // Parse the HTML document and extract headings to construct TOC
+    // Example logic:
+    const headings = Array.from(htmlDocument.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+    const tableOfContents = headings.map(heading => ({
+        text: heading.textContent,
+        level: parseInt(heading.tagName.charAt(1))
+    }));
+    return tableOfContents;
+}
+```
+</p>
+</details>
 
-3. Implement a function to construct a table of contents from an HTML document.
+---
+###### 4. Implement a function to filter rows of data matching a specified requirement.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function filterRows(data, requirement) {
+    // Filter rows based on the requirement
+    // Example logic:
+    return data.filter(row => row.someField === requirement);
+}
+```
+</p>
+</details>
 
-4. Implement a function to filter rows of data matching a specified requirement.
+---
+###### 5. Implement a function that performs insertion sort.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function insertionSort(array) {
+    // Sort the array using insertion sort algorithm
+    // Example logic:
+    for (let i = 1; i < array.length; i++) {
+        let key = array[i];
+        let j = i - 1;
+        while (j >= 0 && array[j] > key) {
+            array[j + 1] = array[j];
+            j = j - 1;
+        }
+        array[j + 1] = key;
+    }
+    return array;
+}
+```
+</p>
+</details>
+---
 
-5. Implement a function that performs insertion sort.
+###### 6. Implement a function that returns a memoized version of a function which accepts any number of arguments.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function memoize(func) {
+    const cache = {};
+    return function(...args) {
+        const key = JSON.stringify(args);
+        if (!cache[key]) {
+            cache[key] = func(...args);
+        }
+        return cache[key];
+    }
+}
+```
+</p>
+</details>
 
-6. Implement a function that returns a memoized version of a function which accepts any number of arguments.
+###### 7. Implement a function that acts like setInterval but returns a function to cancel the Interval.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function setIntervalWithCancel(callback, interval) {
+    const intervalId = setInterval(callback, interval);
+    return function cancel() {
+        clearInterval(intervalId);
+    };
+}
+```
+</p>
+</details>
 
-7. Implement a function that acts like setInterval but returns a function to cancel the Interval.
-
-8. Implement a function that merges two objects together
-
+---
+###### 8. Implement a function that merges two objects together.
+<details><summary><b>Answer</b></summary>
+<p>
+  
+```javascript
+function mergeObjects(obj1, obj2) {
+    return { ...obj1, ...obj2 };
+}
+```
+</p>
+</details>
 9. Implement a function to highlight text if searched terms appear within it.
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function highlightText(text, searchTerm) {
+    // Highlight occurrences of searchTerm in the text
+    // Example logic:
+    return text.replace(new RegExp(searchTerm, 'gi'), '<mark>$&</mark>');
+}
+```
+</p>
+</details>
 10. Implement a function to recursively transform values.
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function recursivelyTransformValues(value) {
+    // Recursively transform values in the object
+    // Example logic:
+    if (typeof value === 'object') {
+        for (let key in value) {
+            value[key] = recursivelyTransformValues(value[key]);
+        }
+    } else {
+        // Transformation logic for non-object values
+    }
+    return value;
+}
+```
+</p>
+</details>
 11. Implement a function that determines if two values are deep equal.
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function deepEqual(value1, value2) {
+    if (value1 === value2) {
+        return true;
+    }
+    if (typeof value1 !== 'object' || typeof value2 !== 'object') {
+        return false;
+    }
+    const keys1 = Object.keys(value1);
+    const keys2 = Object.keys(value2);
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+    for (let key of keys1) {
+        if (!keys2.includes(key) || !deepEqual(value1[key], value2[key])) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+</p>
+</details>
 12. Implement a function to highlight text if a searched term appears within it.
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function highlightText(text, searchTerm) {
+    return text.replace(new RegExp(searchTerm, 'gi'), `<mark>${searchTerm}</mark>`);
+}
+```
+</p>
+</details>
 13. Implement a function that returns a new object after squashing the input object.
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function squashObject(inputObject) {
+    return Object.assign({}, ...Object.values(inputObject));
+}
+```
+</p>
+</details>
 14. Implement a function that creates a resumable interval object.
-
-15. Implement the functionality behaviour of Promise.any()
-
-16. Implement the functionality behaviour of Promise.allSettled()
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function createResumableInterval(callback, interval) {
+    let intervalId = setInterval(callback, interval);
+    return {
+        cancel: function() {
+            clearInterval(intervalId);
+        },
+        resume: function() {
+            intervalId = setInterval(callback, interval);
+        }
+    };
+}
+```
+</p>
+</details>
+15. Implement the functionality behaviour of Promise.any().
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function promiseAny(promises) {
+    return new Promise((resolve, reject) => {
+        let errors = [];
+        promises.forEach(promise => {
+            promise.then(resolve).catch(error => {
+                errors.push(error);
+                if (errors.length === promises.length) {
+                    reject(errors);
+                }
+            });
+        });
+    });
+}
+```
+</p>
+</details>
+16. Implement the functionality behaviour of Promise.allSettled().
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function promiseAllSettled(promises) {
+    return Promise.all(promises.map(promise => {
+        return promise
+            .then(value => ({ status: 'fulfilled', value }))
+            .catch(reason => ({ status: 'rejected', reason }));
+    }));
+}
+```
+</p>
+</details>
 17. Implement a function that returns a memoized version of a function which accepts a single argument.
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function memoizeSingleArg(func) {
+    const cache = {};
+    return function(arg) {
+        if (!cache[arg]) {
+            cache[arg] = func(arg);
+        }
+        return cache[arg];
+    }
+}
+```
+</p>
+</details>
 18. Implement a function that formats a list of items into a single readable string.
-
-19. Implement a function that converts a JavaScript value into a JSON string.
-
-20. Implement a class that can subscribe to and emit events that trigger attached callback functions.
-
-21. Implement a debounce function that comes with a cancel method to cancel delayed invocations.
-
-22. Implement a function to merge rows of data from the same user.
-
-23. Implement a function that recursively flattens an array into a single level deep.
-
-24. Implement a function that returns an object with all falsey values removed.
-
-25. Implement a function to resolve a given value to a Promise.
-
-26. Implement a Turtle class that moves a turtle on a 2D plane.
-
-27. Implement a function to execute N async tasks in series.
-
-28. Implement a promisify function that allows the original function to override the return value.
-
-29. Implement a function to deserialize a JSON string.
-
-30. Implement a function to convert all the keys in an object to camel case.
-
-
-
-
-
-
+<details><summary><b>Answer</b></summary>
+<p>
+```javascript
+function formatItemList(items) {
+    return items.join(', ');
+}
+```
+</p>
+</details>
