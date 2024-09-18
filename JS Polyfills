@@ -1,0 +1,34 @@
+let object = {
+    name: 'Vinay',
+    surname: 'Somawat',
+    company: 'Shiprocket'
+};
+
+function printName(company, exp) {
+    console.log(this.name + " " + this.surname);
+    console.log('And I work at '+ company);
+    console.log('I have '+exp+ ' years of experience');
+}
+console.log('---------- .call() ------------');
+printName.call(object, 'shiprocket', 4);
+
+Function.prototype.myApply = function(context, args) {
+    const fn = this;
+    return fn.call(context, ...args);
+}
+
+console.log('---------- .apply() ------------');
+printName.myApply(object, ['shiprocket',4]);
+
+
+Function.prototype.myBind = function(context, args) {
+    const fn = this;
+    return function(...newArgs) {
+        // or fn.call(context, ...args, ...newArgs);
+        return fn.apply(context, [...args, ...newArgs]);
+    }
+}
+
+console.log('---------- .bind() ------------');
+const customBind = printName.myBind(object, ['shiprocket',4]);
+customBind();
